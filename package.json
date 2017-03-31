@@ -1,7 +1,13 @@
 {
-  "name": "trace",
-  "version": "0.0.0",
-  "description": "",
+  "name": "event-loop-tool",
+  "version": "0.0.1",
+  "description": "Fun with JS Event Loop - forked from  latentflip/loupe (https://github.com/latentflip)",
+  "author": "chrisVillanueva",
+  "license": "ISC",
+  "scripts": {
+    "build": "make build",
+    "start": "building-static-server -p 3051"
+  },
   "main": "trace.js",
   "directories": {
     "test": "tests"
@@ -36,11 +42,5 @@
     "building-static-server": "^2.1.0",
     "glob-cli": "^1.0.0",
     "reactify": "^0.14.0"
-  },
-  "scripts": {
-    "build": "make build",
-    "start": "building-static-server -p 3051"
-  },
-  "author": "",
-  "license": "ISC"
+  }
 }
