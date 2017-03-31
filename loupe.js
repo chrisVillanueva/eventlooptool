@@ -86,7 +86,7 @@ app.store
     .code
     .on('callback:shifted', function (id) {
         var appStore = app.store;
-        var callback = appS.queue.get(id);
+        var callback = appStore.queue.get(id);
 
         if (!callback) {
             callback = appStore.apis.get(id);
