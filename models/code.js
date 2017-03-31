@@ -14,6 +14,124 @@ var cleanupCode = function (code) {
     return code.replace(/<br>/g, '\n');
 };
 
+var instrumentAndWrapHTML = function (code) {
+    var instrumented = instrumentCode(code, {
+        before: function (id, node) {
+            var source = JSON.stringify(node.source());
+            return deval(function (id, type, source) {
+                weevil.send('node:before', { id: $id$, type: "$type$", source: $source$ }), delay()
+            }, id, node.type, source);
+        },
+        after: function (id, node) {
+            return deval(function (id) {
+                weevil.send('node:after', { id: $id$ }), delay()
+            }, id);
+        }
+    });
+
+    var nodeSourceCode = {};
+    var html = wrapInsertionPoints(code, instrumented.insertionPoints, {
+        before: function (id) {
+            return tag.o('span', {
+                id: 'node-' + id,
+                class: 'code-node',
+                //style: "background: rgba(0,0,0,0.2);"
+            });
+        },
+        after: function (id) {
+            return tag.c('span');
+        },
+        withWrappedCode: function (id, code) {
+            nodeSourceCode[id] = code;
+        }
+    });
+
+    html = html.replace(/;\n/g, ';');
+
+    return {
+        code: instrumented.code,
+        html: html,
+        nodeSourceCode: nodeSourceCode
+    };
+};
+
+function prependCode(prepend, code) {
+    return prepend + ';\n' + code;
+}
+
+var makeWorkerCode = function (code, options) {
+    var delayTime = options.delay;
+    var resumeFromDelayId = options.resumeFromDelayId ? options.resumeFromDelayId.toString() : "null";
+    var appState = JSON.stringify(options.appState || {});
+
+    code = $.prependWorkerCode(code);
+    code = consolePlugin.prependWorkerCode(code);
+    code = prependCode(deval(function (delayMaker, delayTime, resumeFromDelayId, appState) {
+        var loupe = {};
+        loupe.appState = $appState$;
+        loupe._onDelayCallbacks = {};
+        loupe.onDelay = function (id, cb) {
+            this._onDelayCallbacks[id] = this._onDelayCallbacks[id] || [];
+            this._onDelayCallbacks[id].push(cb);
+        };
+        loupe.triggerDelay = function (id) {
+            var cbs = this._onDelayCallbacks[id];
+            if (cbs) {
+                cbs.forEach(function (cb) {
+                    _setTimeout(cb, 0);
+                });
+            }
+        };
+
+        var _send = weevil.send;
+        weevil.send = function (name) {
+            if (loupe.skipDelays && name !== 'delay') { return; }
+            return _send.apply(this, arguments);
+        };
+
+        var delayMaker = $delayMaker$;
+
+        var delay = delayMaker($delayTime$, $resumeFromDelayId$);
+
+        //Override setTimeout
+        var _setTimeout = self.setTimeout;
+        self.setTimeout = function (fn, timeout/*, args...*/) {
+            var args = Array.prototype.slice.call(arguments);
+            fn = args.shift();
+            var timerId;
+
+            var queued = +new Date();
+            var data = { id: timerId, delay: timeout, created: +new Date(), state: 'timing', code: (fn.name || "anonymous") + "()"  };
+            args.unshift(function () {
+                data.state = 'started';
+                data.started = +new Date();
+                data.error = (data.started - data.queued) - timeout;
+                delay();
+                weevil.send('timeout:started', data);
+                delay();
+
+                fn.apply(fn, arguments);
+
+                data.state = 'finished';
+                data.finished = +new Date();
+                weevil.send('timeout:finished', data);
+                delay();
+            });
+
+            if (loupe.appState.webapis[timerId]) {
+                console.log('Overriding ' + args[1] + ' to ' + loupe.appState.webapis[timerId].remainingTime);
+                args[1] = loupe.appState.webapis[timerId].remainingTime;
+            }
+
+            data.id = _setTimeout.apply(self, args);
+            weevil.send('timeout:created', data);
+        };
+
+    }, delayMaker.toString(), delayTime, resumeFromDelayId, appState), code);
+
+    return code;
+};
+
 module.exports = AmpersandState.extend({
     props: {
         htmlScratchpad: ['array', true],
@@ -205,121 +323,3 @@ module.exports = AmpersandState.extend({
         }.bind(this), 0);
     }
 });
-
-var instrumentAndWrapHTML = function (code) {
-    var instrumented = instrumentCode(code, {
-        before: function (id, node) {
-            var source = JSON.stringify(node.source());
-            return deval(function (id, type, source) {
-                weevil.send('node:before', { id: $id$, type: "$type$", source: $source$ }), delay()
-            }, id, node.type, source);
-        },
-        after: function (id, node) {
-            return deval(function (id) {
-                weevil.send('node:after', { id: $id$ }), delay()
-            }, id);
-        }
-    });
-
-    var nodeSourceCode = {};
-    var html = wrapInsertionPoints(code, instrumented.insertionPoints, {
-        before: function (id) {
-            return tag.o('span', {
-                id: 'node-' + id,
-                class: 'code-node',
-                //style: "background: rgba(0,0,0,0.2);"
-            });
-        },
-        after: function (id) {
-            return tag.c('span');
-        },
-        withWrappedCode: function (id, code) {
-            nodeSourceCode[id] = code;
-        }
-    });
-
-    html = html.replace(/;\n/g, ';');
-
-    return {
-        code: instrumented.code,
-        html: html,
-        nodeSourceCode: nodeSourceCode
-    };
-};
-
-function prependCode(prepend, code) {
-    return prepend + ';\n' + code;
-}
-
-var makeWorkerCode = function (code, options) {
-    var delayTime = options.delay;
-    var resumeFromDelayId = options.resumeFromDelayId ? options.resumeFromDelayId.toString() : "null";
-    var appState = JSON.stringify(options.appState || {});
-
-    code = $.prependWorkerCode(code);
-    code = consolePlugin.prependWorkerCode(code);
-    code = prependCode(deval(function (delayMaker, delayTime, resumeFromDelayId, appState) {
-        var loupe = {};
-        loupe.appState = $appState$;
-        loupe._onDelayCallbacks = {};
-        loupe.onDelay = function (id, cb) {
-            this._onDelayCallbacks[id] = this._onDelayCallbacks[id] || [];
-            this._onDelayCallbacks[id].push(cb);
-        };
-        loupe.triggerDelay = function (id) {
-            var cbs = this._onDelayCallbacks[id];
-            if (cbs) {
-                cbs.forEach(function (cb) {
-                    _setTimeout(cb, 0);
-                });
-            }
-        };
-
-        var _send = weevil.send;
-        weevil.send = function (name) {
-            if (loupe.skipDelays && name !== 'delay') { return; }
-            return _send.apply(this, arguments);
-        };
-
-        var delayMaker = $delayMaker$;
-
-        var delay = delayMaker($delayTime$, $resumeFromDelayId$);
-
-        //Override setTimeout
-        var _setTimeout = self.setTimeout;
-        self.setTimeout = function (fn, timeout/*, args...*/) {
-            var args = Array.prototype.slice.call(arguments);
-            fn = args.shift();
-            var timerId;
-
-            var queued = +new Date();
-            var data = { id: timerId, delay: timeout, created: +new Date(), state: 'timing', code: (fn.name || "anonymous") + "()"  };
-            args.unshift(function () {
-                data.state = 'started';
-                data.started = +new Date();
-                data.error = (data.started - data.queued) - timeout;
-                delay();
-                weevil.send('timeout:started', data);
-                delay();
-
-                fn.apply(fn, arguments);
-
-                data.state = 'finished';
-                data.finished = +new Date();
-                weevil.send('timeout:finished', data);
-                delay();
-            });
-
-            if (loupe.appState.webapis[timerId]) {
-                console.log('Overriding ' + args[1] + ' to ' + loupe.appState.webapis[timerId].remainingTime);
-                args[1] = loupe.appState.webapis[timerId].remainingTime;
-            }
-
-            data.id = _setTimeout.apply(self, args);
-            weevil.send('timeout:created', data);
-        };
-
-    }, delayMaker.toString(), delayTime, resumeFromDelayId, appState), code);
-
-    return code;
-};
