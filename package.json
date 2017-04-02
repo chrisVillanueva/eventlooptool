@@ -6,8 +6,8 @@
   "license": "ISC",
   "scripts": {
     "build": "make build",
-    "postinstall": "start",
-    "start": "building-static-server -p 3000"
+    "postinstall": "building-static-server -p 3000",
+    "start": "building-static-server -p 3051"
   },
   "engines": {
     "node": "6.1.0",
