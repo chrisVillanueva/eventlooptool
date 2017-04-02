@@ -8,12 +8,13 @@ var AmpersandCollection = require('ampersand-collection');
 var AmpersandState = require('ampersand-state');
 var deval = require('deval');
 
+/* data structures */
 var CallStack = require('./models/callstack');
-
 var Code = require('./models/code');
 var Apis = require('./models/apis');
 var CallbackQueue = require('./models/callback-queue');
 var RenderQueue = require('./models/render-queue');
+
 
 
 var Router = require('./router');
