@@ -9,6 +9,10 @@
     "postinstall": "start",
     "start": "building-static-server -p 3000"
   },
+  "engines": {
+    "node": "6.1.0",
+    "npm": "3.8.6"
+  },
   "main": "trace.js",
   "directories": {
     "test": "tests"
