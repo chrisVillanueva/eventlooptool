@@ -6,7 +6,8 @@
   "license": "ISC",
   "scripts": {
     "build": "make build",
-    "start": "building-static-server -p 3051"
+    "postinstall": "start",
+    "start": "building-static-server -p 3000"
   },
   "main": "trace.js",
   "directories": {
