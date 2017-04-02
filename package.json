@@ -25,6 +25,7 @@
     "ampersand-state": "^4.3.10",
     "ampersand-view": "^7.1.1",
     "brace": "^0.3.0",
+    "building-static-server": "^2.1.0",
     "deval": "~0.1.1",
     "escodegen": "~1.4.1",
     "esprima": "~1.2.2",
