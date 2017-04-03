@@ -9,7 +9,8 @@
     "develop2": "building-static-server -p 3051",
     "dev": "nodemon ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline",
     "postinstall": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
-    "start": "node server.js"
+    "start2": "node server.js",
+    "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --port 3000 --hot --inline"
   },
   "engines": {
     "node": "6.1.0",

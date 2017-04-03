@@ -6,7 +6,7 @@ window.React = React;
 var App = require('./components/app.jsx');
 var AmpersandCollection = require('ampersand-collection');
 var AmpersandState = require('ampersand-state');
-var deval = require('deval');
+//var deval = require('deval');
 
 /* data structures */
 var CallStack = require('./models/callstack');
@@ -17,12 +17,12 @@ var RenderQueue = require('./models/render-queue');
 
 
 
-var Router = require('./router');
+//var Router = require('./router');
 //var Modal = require('react-modal');
 
 
 app = {};
-app.router = new Router();
+//app.router = new Router();
 app.store = {
     //StackFrame
     callstack: new CallStack(),
@@ -195,9 +195,11 @@ app.store
     });
 
 
+/*
 app.router
     .history
     .start({ pushState: true });
+*/
 
 /**
 *   TODO:
@@ -213,5 +215,5 @@ app.router
 
 React.renderComponent(
     App(),
-    document.body
+    document.querySelector('#app-root')
 );

@@ -7,6 +7,7 @@ console.log(env);
 
 if (env.isDev) {
   require('./webpack/dev-server');
+  console.log("running dev server.")
 } else {
 	console.log("not running dev server.")
 }
@@ -21,11 +22,6 @@ app.use(express.static(__dirname));
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'index.html'));
 });
-
-/*
-app.listen(port);
-console.log('Server started on '+ port);
-*/
 
 app.listen(env.PORT, () => {
   console.log(chalk.black.bgYellow(`Listening on http://localhost:${env.PORT}`));
