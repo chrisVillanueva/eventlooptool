@@ -32,7 +32,7 @@ module.exports = React.createClass({
     },
     render: function () {
         return (
-          <div>
+          <div id="event-loop">
             <div className='flexContainer'>
               <nav className="top-nav">
                 <h1>loupe</h1>

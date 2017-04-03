@@ -1,4 +1,4 @@
-*, *:before, *:after { 
+*, *:before, *:after {
   box-sizing: border-box;
 }
 
@@ -30,35 +30,50 @@ color: #666;
 }
 
 .rowParent, .columnParent{
+  display: -webkit-box;
   display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
+  -webkit-flex-wrap: nowrap;
   -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  -webkit-align-content: stretch;
   -ms-flex-line-pack: stretch;
   align-content: stretch;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
   -ms-flex-align: stretch;
   align-items: stretch;
 }
 
 .columnParent{
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
 }
 
 .flexChild{
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
+  -webkit-align-self: auto;
   -ms-flex-item-align: auto;
   align-self: auto;
 }
 
 .editorBox, .stackRow {
-  -ms-flex: 3;
-      flex: 3;
+  flex: 3;
   position: relative;
 }
 
@@ -67,8 +82,7 @@ color: #666;
 }
 
 .codeColumn {
-  -ms-flex: 0.5;
-      flex: 0.5;
+  flex: 0.5;
   margin-right: 20px;
   border-right: 2px #ddd solid;
 }
@@ -104,8 +118,7 @@ color: #666;
 }
 
 .ace-editor-wrapper {
-  -ms-flex: 1;
-      flex: 1;
+  flex: 1;
 }
 
 .ace_editor {
@@ -147,20 +160,9 @@ color: #666;
 }
 
 
-@-webkit-keyframes rota {
-  0%   { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
-}
-
-
 @keyframes rota {
-  0%   { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
-}
-
-@-webkit-keyframes fill {
-  0%        { opacity: 0; }
-  50%, 100% { opacity: 1; }
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 @keyframes fill {
@@ -168,32 +170,15 @@ color: #666;
   50%, 100% { opacity: 1; }
 }
 
-@-webkit-keyframes mask {
-  0%        { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-
 @keyframes mask {
   0%        { opacity: 1; }
   50%, 100% { opacity: 0; }
-}
-
-@-webkit-keyframes check {
-  0%        { opacity: 0; }
-  98%       { opacity: 0; }
-  100%      { opacity: 1; }
 }
 
 @keyframes check {
   0%        { opacity: 0; }
   98%       { opacity: 0; }
   100%      { opacity: 1; }
-}
-
-@-webkit-keyframes background {
-  0% { background: rgba(148,255,148,0); }
-  95% { background: rgba(148,255,148,0); }
-  100% { background: rgba(148,255,148,1); }
 }
 
 @keyframes background {
@@ -208,8 +193,7 @@ color: #666;
   position: relative;
   background: rgba(148,255,148,1);
   border-radius: 250px;
-  -webkit-animation: background 10s linear;
-          animation: background 10s linear;
+  animation: background 10s linear;
   overflow: hidden;
 }
 
@@ -222,8 +206,7 @@ color: #666;
   left: 25.5%;
   border-left: 7px white solid;
   border-bottom: 7px white solid;
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
+  transform: rotate(-45deg);
   z-index: 500;
 }
 
@@ -240,10 +223,8 @@ color: #666;
   border-bottom-right-radius: 0;
   z-index: 200;
   border-right: none;
-  -webkit-animation: rota 10s linear;
-          animation: rota 10s linear;
-  -webkit-transform-origin: 100% 50%;
-          transform-origin: 100% 50%;
+  animation: rota 10s linear;
+  transform-origin: 100% 50%;
 }
 
 .stopwatch-filler {
@@ -251,8 +232,7 @@ color: #666;
   border-bottom-left-radius: 0;
   z-index: 100;
   border-left: none;
-  -webkit-animation: fill 10s steps(1, end);
-          animation: fill 10s steps(1, end);
+  animation: fill 10s steps(1, end);
   left: 50%;
   opacity: 1;
 }
@@ -264,14 +244,12 @@ color: #666;
   z-index: 300;
   opacity: 0;
   background: white;
-  -webkit-animation: mask 10s steps(1, end);
-          animation: mask 10s steps(1, end);
+  animation: mask 10s steps(1, end);
   border-radius: 250px 0 0 250px;
 }
 
 .stopwatch-spinner, .stopwatch-filler, .stopwatch-mask, .stopwatch-wrapper {
-  -webkit-animation-duration: 3s;
-          animation-duration: 3s;
+  animation-duration: 3s;
 }
 
 
@@ -377,15 +355,12 @@ color: #666;
   width: 76px;
   position: relative;
   padding: 9px;
-  -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
+  transform: rotate(0deg);
   margin-left: 82px;
 }
 
 .spinner-wrapper-transition {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
-  transition: -webkit-transform 0.5s linear;
+  transform: rotate(180deg);
   transition: transform 0.5s linear;
 }
 
@@ -449,7 +424,7 @@ color: #666;
 
 .code-node.running {
   background: rgba(236, 117, 74, 0.25);
-} 
+}
 
 
 /*********************************/
@@ -491,36 +466,31 @@ color: #666;
 }
 
 .tr-queue-leave {
-  -webkit-transform: translate(0, 0);
-          transform: translate(0, 0);
+  transform: translate(0, 0);
   opacity: 1;
   transition: all 0.25s linear;
 }
 
 .tr-queue-leave.tr-queue-leave-active {
-  -webkit-transform: translate(0, -100px);
-          transform: translate(0, -100px);
+  transform: translate(0, -100px);
   opacity: 0.01;
 }
 
 
 /*********************************/
 .tr-stack-enter {
-  -webkit-transform: translate(0, 0);
-          transform: translate(0, 0);
+  transform: translate(0, 0);
   opacity: 0.01;
   transition: all 0.1s linear;
 }
 
 .tr-stack-enter.stack-item-callback {
-  -webkit-transform: translate(0, 100px);
-          transform: translate(0, 100px);
+  transform: translate(0, 100px);
   transition: all 0.25s linear;
 }
 
 .tr-stack-enter.tr-stack-enter-active {
-  -webkit-transform: translate(0, 0);
-          transform: translate(0, 0);
+  transform: translate(0, 0);
   opacity: 1;
 }
 
@@ -615,10 +585,9 @@ color: #666;
 
 .settingsColumn {
   box-sizing: border-box;
-  -ms-flex: none;
-      flex: none;
+  flex: none;
   width: 200px;
-  transition: width 0.15s linear; 
+  transition: width 0.15s linear;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   background: #ddd;
   color: #666;

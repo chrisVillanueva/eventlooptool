@@ -163,6 +163,7 @@ ul {
   display: flex;
 }
 
+/*
 .flex1,
 .flex-column {
   -webkit-flex: 1;
@@ -178,6 +179,7 @@ ul {
   -webkit-flex: 3;
   flex: 3;
 }
+*/
 
 .flex-right {
   display: -webkit-flex;
@@ -297,8 +299,13 @@ ul {
   }
 }
 
+.container {
+
+}
+
+
 .block-container {
-  @extend .container;
+  @extend .container !optional;
 
   background-color: $white;
   margin: ($margin * 3) auto;

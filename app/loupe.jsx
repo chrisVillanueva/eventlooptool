@@ -1,6 +1,7 @@
 'use strict';
 
-//import './styles/main.scss';
+import './styles/main.scss';
+
 var React = require('react/addons');
 window.React = React;
 var App = require('./components/app.jsx');

@@ -44,7 +44,7 @@ html, body {
 }
 
 .code-node:not(.running) {
-  background: none
+  background: none;
   transition: background 0.25s linear;
   -webkit-transition: background 0.25s linear;
 }
