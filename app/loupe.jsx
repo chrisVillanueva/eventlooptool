@@ -1,3 +1,6 @@
+'use strict';
+
+//import './styles/main.scss';
 var React = require('react/addons');
 window.React = React;
 var App = require('./components/app.jsx');
@@ -12,8 +15,10 @@ var Apis = require('./models/apis');
 var CallbackQueue = require('./models/callback-queue');
 var RenderQueue = require('./models/render-queue');
 
+
+
 var Router = require('./router');
-var Modal = require('react-modal');
+
 
 window.app = {};
 
@@ -114,12 +119,11 @@ app.store.renderQueue.on('add', function () {
     }
 });
 
-if (window.location.origin.match('latentflip.com')) {
-    window.app.router.history.start({ pushState: true, root: '/loupe/' });
-} else {
-    window.app.router.history.start({ pushState: true });
-}
 
-Modal.setAppElement(document.body);
-Modal.injectCSS();
-React.renderComponent(App(), document.body);
+window.app.router.history.start({ pushState: true });
+
+
+React.renderComponent(
+    App(),
+    document.body
+);
