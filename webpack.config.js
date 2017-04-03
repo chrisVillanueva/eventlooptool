@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -45,11 +46,10 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader?modules',
-          'postcss-loader',
-        ],
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader?sourceMap']
+        })
       },
       {
         test: /\.json$/,
@@ -61,12 +61,17 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ["style-loader",
-              "css-loader?sourceMap",
-              "sass-loader?sourceMap"]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          //resolve-url-loader may be chained before sass-loader if necessary
+          use: ['css-loader?sourceMap', 'sass-loader?sourceMap']
+        })
       }
     ]
   },
+  plugins: [
+    new ExtractTextPlugin('styles.css'),
+  ],
   node: {
     console: true,
     fs: 'empty',
@@ -80,7 +85,7 @@ module.exports = {
   context: resolve(__dirname, 'app'),
   devtool: 'inline-source-map',
   devServer: {
-    // enable HMR on the server
+    // enale HMR on the server
     //contentBase: resolve(__dirname, 'app'),
     // match the output path
     //publicPath: '/',

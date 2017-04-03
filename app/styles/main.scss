@@ -1,11 +1,8 @@
 
-
-@import "./bs4/css/bootstrap.min.css";
-
 //base
-//@import "./custom/variables.scss";
-//@import "./custom/mixins.scss";
-//@import "./custom/scaffolding.scss";
+@import "./custom/variables.scss";
+@import "./custom/mixins.scss";
+@import "./custom/scaffolding.scss";
 
 
 //containers
@@ -18,4 +15,4 @@
 
 
 
-//@import "./custom/loupe.scss";
+@import "./custom/loupe.scss";

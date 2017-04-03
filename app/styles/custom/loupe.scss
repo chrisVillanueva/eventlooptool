@@ -2,10 +2,6 @@
   box-sizing: border-box;
 }
 
-/*#flexcanvas{
-   width: 100%;
-   height: 600px !important;
- }*/
 html, body, .flexContainer {
   min-height: 100vh;
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -20,7 +16,7 @@ color: #666;
 }
 
 .flexContainer {
-  width: 100%;
+  /*width: 100%;*/
   height: 100vh;
 }
 
@@ -57,18 +53,18 @@ color: #666;
 }
 
 .editorBox, .stackRow {
-  -ms-flex: 3;
-      flex: 3;
+  -ms-flex: 2;
+   flex: 2;
   position: relative;
 }
 
 .editorBox {
-  background: #FDF6E3;
+  max-height: 70%;
 }
 
 .codeColumn {
-  -ms-flex: 0.5;
-      flex: 0.5;
+  -ms-flex: 0.7;
+  flex: 0.7;
   margin-right: 20px;
   border-right: 2px #ddd solid;
 }
@@ -85,7 +81,8 @@ color: #666;
   color: #333;
   font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace;
   font-size: 12px;
-  overflow-y: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
 }
 
@@ -105,7 +102,7 @@ color: #666;
 
 .ace-editor-wrapper {
   -ms-flex: 1;
-      flex: 1;
+  flex: 1;
 }
 
 .ace_editor {
@@ -300,20 +297,22 @@ color: #666;
 
 .stackBox {
   position: relative;
-  margin-right: 20px;
 }
 
 .stack-wrapper {
-  width: 244px;
+  width: 100%;
   padding: 20px;
-  margin-bottom: 86px;
-  margin-top: 20px;
+  margin: 20px 0 50px 0;
 }
 
-.stack-wrapper, .callback-queue, .webapis {
+.stack-wrapper,
+.callback-queue,
+.webapis {
+  width: 100%;
   border: 2px #ddd dashed;
   position: relative;
-  padding: 25px 10px 10px 10px;
+  padding: 35px 10px 10px 10px;
+  font-size: 12px;
 }
 
 .stack-wrapper:before,
@@ -327,27 +326,46 @@ color: #666;
   color: #999;
 }
 
+.processing-right {
+  margin-right: 15px;
+}
 .webapis {
   margin-top: 20px;
-  margin-bottom: 86px;
-  margin-right: 20px;
+  margin-bottom: 50px;
 }
 
+
+
+
+
+/* Labels */
+
 .webapis:before {
-  content: "Web Apis";
+  font-family: FontAwesome;
+  font-size: 18px;
+  color: $blue-grey;
+  content: " \f0c9 Browser Event Queue";
 }
 
 .stack-wrapper:before {
-  content: "Call Stack";
+  font-family: FontAwesome;
+  font-size: 18px;
+  color: $black;
+  content: "\f0cb  JS Call Stack";
 }
 
 .callback-queue:before {
-  content: "Callback Queue";
+  font-family: FontAwesome;
+  font-size: 18px;
+  color: $danger-color;
+  content: "\f253 Browser Callback Queue";
 }
 
 .callback-queue.render-queue:before {
   content: "Render Queue";
 }
+
+
 
 .stack {
   position: absolute;
@@ -355,11 +373,13 @@ color: #666;
   left: 0;
   padding-left: 10px;
 }
+
+
 .stackBox > .spinner-wrapper {
   position: absolute;
   bottom: 0;
   left: 0;
-  margin-bottom: 5px;
+  margin-bottom:0;
 }
 
 .stack-item {
@@ -373,13 +393,13 @@ color: #666;
 
 
 .spinner-wrapper {
-  height: 76px;
-  width: 76px;
+  height: 50px;
+  width: 50px;
   position: relative;
   padding: 9px;
   -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
-  margin-left: 82px;
+  transform: rotate(0deg);
+  margin-left: 0;
 }
 
 .spinner-wrapper-transition {
@@ -393,7 +413,7 @@ color: #666;
   height: 100%;
   width: 100%;
   border-radius: 30px;
-  border: 6px coral solid;
+  border: 4px solid $danger-color;
 }
 
 .spinner-arrow {
@@ -410,34 +430,36 @@ color: #666;
   width: 0px;
   height: 0px;
   border-style: solid;
-  border-width: 0 12px 12px 12px;
-  border-color: transparent transparent coral transparent;
+  border-width: 0 8px 8px 8px;
+  border-color: transparent transparent #d9534f transparent;
   position: absolute;
 }
 
-.spinner-arrow-left:after {
-  left: -12px;
-  top: 4px;
+.spinner-arrow-left {
+  left: -4px;
+  top: calc(50% - 9px);
+  border-width: 0px 16px 16px 16px;
+  border-color: transparent transparent white transparent;
 }
 
-.spinner-arrow-left {
-  left: -2.5px;
-  top: calc(50% - 9px);
+.spinner-arrow-left:after {
+  left: -9px;
+  top: 5px;
 }
+
 
 .spinner-arrow-right {
-  right: -2px;
+  right: -4px;
   top: calc(50% - 6px);
   border-width: 16px 16px 0px 16px;
   border-color: white transparent transparent transparent;
 }
 
 .spinner-arrow-right:after {
-  border-width: 12px 12px 0px 12px;
-  border-color: coral transparent transparent transparent;
-
-  left: -12px;
-  bottom: 4px;
+  border-width: 8px 8px 0px 8px;
+  border-color: #d9534f transparent transparent transparent;
+  left: -7px;
+  bottom: 5px;
 }
 
 .code-node {
@@ -584,22 +606,35 @@ color: #666;
 /************************/
 
 .top-nav {
-  background: #D80;
-  padding: 5px;
+  background: $grey-darker;
+  padding: 0 15px;
   height: 32px;
   position: absolute;
-  width: 100%;
+  left: 0;
   color: #eee;
-  padding-left: 10px;
 }
 
 .top-nav h1 {
-  font-size: 20px;
-  display: inline;
-  position: relative;
-  top: -2px;
-  color: #eee;
+  font-size: 24px;
+  color: #f1f1f1;
+  margin: 3px;
+
+  span {
+
+    display: inline-block;
+
+    &.credit {
+      margin-left:10px;
+      font-size: 9px;
+      color: #585858;
+    }
+  }
+
+  a {
+    color: $white;
+  }
 }
+
 
 .top-nav .settings-button {
   border: none;
@@ -700,4 +735,72 @@ a.modalClose {
 }
 a:hover {
     cursor: pointer;
+}
+
+
+
+
+/* bs4 overwrites + custom*/
+.dashboard {
+  &.container-fluid {
+    padding: 0;
+  }
+
+  .panel-label {
+    margin-right: 15px;
+  }
+  .editorBox {
+    background-color: $yellow;
+  }
+
+  .ace-editor-wrapper,
+  .editor.processing {
+    background-color: #FDF6E3;
+  }
+
+  .htmlEditorBox {
+    background-color: $lightSteelBlue;
+  }
+
+  .ace-editor-wrapper,
+  .editor.processing,
+  .html-scratchpad  {
+    margin-top: 35px;
+  }
+
+  .stack-wrapper {
+    font-size: 12px;
+
+    .stack {
+      display: block;
+      width: 100%;
+      padding: 5px 10px;
+
+      .stack-item {
+        width: inherit;
+        padding: 5px;
+        border: 2px solid $black;
+      }
+    }
+  }
+
+  .webapis {
+    > span {
+      display: block;
+    }
+
+    .webapi {
+      padding: 5px;
+      border: 2px solid $blue-grey;
+    }
+  }
+
+  .callback-queue {
+    .callback {
+      padding: 5px;
+      border: 2px solid $danger-color;
+      color: $danger-color;
+      overflow: auto;
+    }
+  }
 }

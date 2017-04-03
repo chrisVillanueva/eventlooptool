@@ -32,12 +32,14 @@ module.exports = React.createClass({
     },
     render: function () {
         return (
-          <div id="event-loop">
-            <div className='flexContainer'>
-              <nav className="top-nav">
-                <h1>loupe</h1>
+          <div className="dashboard container-fluid" id="event-loop">
+            <div className='flexContainer row'>
+              <nav className="top-nav col-xs-12">
+                <h1>Event Loop Processing
+                    <span className="credit">( based on <a href="http://latentflip.com/loupe/" target="_blank">loupe</a>)</span>
+                </h1>
               </nav>
-              <div className="flexChild rowParent">
+              <div className="flexChild rowParent col-xs-12">
                 {/*
                     <SettingsPanel open={this.state.settingsOpen}/>
                 */}
@@ -53,15 +55,12 @@ module.exports = React.createClass({
                 </div>
 
                 <div className="flexChild columnParent">
-                  <div className="flexChild rowParent stackRow">
-                    <div className="stackBox columnParent">
-
-                      <CallStack />
-
-                      <EventLoopSpinner />
+                  <div className="flexChild rowParent stackRow row">
+                    <div className="stackBox columnParent processing-left col-xs-6">
+                        <CallStack />
+                        <EventLoopSpinner />
                     </div>
-
-                    <div className="flexChild columnParent">
+                    <div className="columnParent processing-right col-xs-6">
                       <WebApis/>
                     </div>
                   </div>
@@ -70,9 +69,22 @@ module.exports = React.createClass({
                     { this.state.code.simulateRenders ? <RenderQueue /> : null }
                     <CallbackQueue />
                   </div>
+
+
                 </div>
               </div>
             </div>
+          </div>
+        )
+    }
+});
+
+
+
+
+
+
+
 {/*
     TODO: convert this to info panel w/ credits
 
@@ -114,8 +126,3 @@ module.exports = React.createClass({
                 <p className="info">Got it? <a onClick={this.closeModal}>Close this dialog</a></p>
             </Modal>
 */}
-
-          </div>
-        )
-    }
-});

@@ -71,8 +71,18 @@ module.exports = React.createClass({
         if (this.state.editing) {
             return (
                 <div className="flexChild columnParent">
-                    <div className='editor-switch'>
-                        <button onClick={this.saveAndRunCode}>Save + Run</button>
+                    <div className='editor-switch panel-controls'>
+                        <span className="panel-label">
+                            <span>
+                                <i className="fa fa-code" />
+                            </span>
+                            JS Editor
+                        </span>
+                        <button  type="button"
+                                 className="btn btn-sm btn-primary"
+                                 onClick={this.saveAndRunCode}>
+                            Save + Run
+                        </button>
                     </div>
                     <AceEditor
                         mode="javascript"
@@ -88,14 +98,38 @@ module.exports = React.createClass({
 
             return (
                 <div className="flexChild columnParent">
-                    <div className='editor-switch'>
-                        <button onClick={this.onEditFocus}>Edit</button>
-                        <button onClick={this.runCode}>Rerun</button>
-                        <button onClick={this.pauseCode}>Pause</button>
-                        <button onClick={this.resumeCode}>Resume</button>
+                    <div className='editor-switch panel-controls'>
+                        <span className="panel-label">
+                            <span>
+                                <i className="fa fa-code" />
+                            </span>
+                            JS Editor
+                        </span>
+                        <div className="btn-group" role="group">
+                            <button  type="button"
+                                     className="btn btn-sm btn-primary"
+                                     onClick={this.onEditFocus}>
+                                Edit
+                            </button>
+                            <button  type="button"
+                                     className="btn btn-sm btn-primary"
+                                     onClick={this.runCode}>
+                                Rerun
+                            </button>
+                            <button  type="button"
+                                     className="btn btn-sm btn-danger"
+                                     onClick={this.pauseCode}>
+                                Pause
+                            </button>
+                            <button  type="button"
+                                     className="btn btn-sm btn-success"
+                                     onClick={this.resumeCode}>
+                                Resume
+                            </button>
+                        </div>
                     </div>
                     <div
-                      className="editor flexChild"
+                      className="editor flexChild processing"
                       dangerouslySetInnerHTML={ {__html: this.state.code.wrappedHtml} }
                       onClick={this.onEditFocus}
                       ref="code"
@@ -105,18 +139,5 @@ module.exports = React.createClass({
             );
 
         }
-
-        //var innerHTML = this.state.editing ? this.state.code.html : this.state.code.wrappedHtml;
-
-        //return (
-        //    <div className="editor flexChild"
-        //         ref="code"
-        //         contentEditable
-        //         onBlur={this.onBlur}
-        //         onFocus={this.onFocus}
-        //         onKeyDown={this.onKeyDown}
-        //         dangerouslySetInnerHTML={ {__html: innerHTML} }
-        //    ></div>
-        //);
     }
 });

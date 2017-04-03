@@ -79,12 +79,13 @@
     "autoprefixer": "^3.0.0",
     "browserify": "^5.11.1",
     "building-static-server": "^2.1.0",
+    "extract-text-webpack-plugin": "^2.1.0",
     "glob-cli": "^1.0.0",
     "jsdom": "^8.4.0",
-    "nodemon": "^1.11.0",
     "node-sass": "^3.4.2",
-    "reactify": "^0.14.0",
+    "nodemon": "^1.11.0",
     "react-addons-test-utils": "^0.14.8",
+    "reactify": "^0.14.0",
     "redux-devtools": "^3.1.1",
     "webpack-dev-server": "^2.1.0-beta.0"
   }
