@@ -18,7 +18,12 @@
   "keywords": [
     "reactjs",
     "webpack",
-    "node"
+    "node",
+    "event loop",
+    "javascript events",
+    "events",
+    "front end",
+    "front end learning"
   ],
   "main": "trace.js",
   "directories": {
